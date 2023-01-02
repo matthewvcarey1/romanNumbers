@@ -17,7 +17,8 @@ To build and test
 ./gradlew build
 ```
 
-To start the service on localhost:8080/roman/decimal=1
+To start the service on http://localhost:8080/roman/1
+(replace 1 with whatever number that you are converting)
 ```bash
 ./gradlew bootRun
 ```
@@ -26,7 +27,7 @@ To start the service on localhost:8080/roman/decimal=1
 
 Have a bash at overloading it.
 ```bash
-     seq 1 100000 | xargs -P0 -I{} curl -s http://localhost:8080/roman?decimal={}
+     seq 1 100000 | xargs -P0 -I{} curl -s http://localhost:8080/roman/{}
 ```
 
 Timing such a sequence of 100000 being piped to /dev/null on this 16 Core AMD Ryzen 7 gives 
@@ -35,7 +36,8 @@ real	0m39.357s
 user	3m0.795s
 sys	3m6.679s
 ```
-Or 390 micro seconds per REST call.
+Or an apparent 394 µ seconds per REST call, though in fact each call is longer there are at least 16 threads.
+So it is more like each REST call took about 6 milliseconds just they overlapped with 15 others.
 
 Looking at the "top" command output, we can see that Tomcat and Spring do quite a good job of splitting the load across the CPUs.
 

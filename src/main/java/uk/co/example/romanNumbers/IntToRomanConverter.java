@@ -1,37 +1,20 @@
 package uk.co.example.romanNumbers;
 
+import java.lang.Math;
 import java.io.*;
 import java.util.*;
 import org.json.simple.*;
 import org.json.simple.parser.*;
-import java.io.IOException;
-import org.json.simple.parser.ParseException;
 
-import java.lang.Math;
 
 
 public class IntToRomanConverter {
     private final long BASE = 10;
-    private static final String ARGUMENT_ERROR_MESSAGE = "Expected as an input parameter of a valid positive integer greater than 0, and less than ";
 
     /**
      * An entry point that takes a decimal string and prints out the roman number to stdout
      * @param args expects amd array of at least one string value. That value should be a representation of an integer.
      */
-    public static void main(String[] args) {
-        IntToRomanConverter converter = IntToRomanConverter.getInstance();
-        long limit = converter.getTopLimit();
-        try {
-            final long value = (args.length > 0) ? Long.parseLong(args[0]) : 0;
-            if(!converter.validate(value)){
-                System.out.println(ARGUMENT_ERROR_MESSAGE + limit);
-                return;
-            }
-            System.out.println(converter.convert(value));
-        } catch (Exception e){
-            System.out.println(ARGUMENT_ERROR_MESSAGE + limit);
-        }
-    }
     private ArrayList<RomanPowerOfTen> romanPowers;
     private long limit;
 
@@ -42,55 +25,51 @@ public class IntToRomanConverter {
      * Outside the constructor and this synchronised function none of the class member values are ever changed.
      * @return IntToRomanConverter
      */
-    public synchronized static IntToRomanConverter getInstance() {
+    public synchronized static IntToRomanConverter getInstance(String configFilePath) throws Exception{
         if (INSTANCE == null) {
-            INSTANCE = new IntToRomanConverter();
+            INSTANCE = new IntToRomanConverter(configFilePath);
         }
         return INSTANCE;
     }
+
+    /**
+     * An abomination for tests removing the instance of the singleton
+     * @return always true
+     * @throws Exception
+     */
+    public synchronized static Boolean removeInstance() throws Exception{
+        if (INSTANCE != null) {
+            INSTANCE = null;
+        }
+        return true;
+    }
     private static IntToRomanConverter INSTANCE;
 
-    private IntToRomanConverter(){
+    private IntToRomanConverter(String configFilePath) throws Exception{
         romanPowers = new ArrayList<>();
         // Read definitions of Roman 'digit character strings' from a json configuration file
         JSONParser parser = new JSONParser();
-        try {
-            Object obj = parser.parse(new FileReader("src/main/resources/definitions/romanNumbers.json"));
-            JSONObject jsonObject = (JSONObject)obj;
-            JSONArray romanNumbers = (JSONArray) jsonObject.get("romanNumbers");
-            Iterator romanNumbersIterator = romanNumbers.iterator();
-            while (romanNumbersIterator.hasNext()) {
-                Object ob = romanNumbersIterator.next();
-                JSONObject romanObject = (JSONObject)ob;
-                final long unit = (Long) romanObject.get("unit");
-                if(!romanNumbersIterator.hasNext()) {
-                    this.limit = unit * BASE;
-                }
-                JSONArray romans = (JSONArray) romanObject.get("romans");
-                ArrayList<String> romansList = new ArrayList<>();
-                Iterator romansIterator = romans.iterator();
-                while(romansIterator.hasNext()){
-                    romansList.add((String) romansIterator.next());
-                }
-                RomanPowerOfTen rpt = new RomanPowerOfTen(unit,romansList);
-                romanPowers.add(rpt);
+        Object obj = parser.parse(new FileReader(configFilePath));
+        JSONObject jsonObject = (JSONObject)obj;
+        JSONArray romanNumbers = (JSONArray) jsonObject.get("romanNumbers");
+        Iterator romanNumbersIterator = romanNumbers.iterator();
+        while (romanNumbersIterator.hasNext()) {
+            Object ob = romanNumbersIterator.next();
+            JSONObject romanObject = (JSONObject)ob;
+            final long unit = (Long) romanObject.get("unit");
+            if(!romanNumbersIterator.hasNext()) {
+                this.limit = unit * BASE;
             }
+            JSONArray romans = (JSONArray) romanObject.get("romans");
+            ArrayList<String> romansList = new ArrayList<>();
+            Iterator romansIterator = romans.iterator();
+            while(romansIterator.hasNext()){
+                romansList.add((String) romansIterator.next());
+            }
+            RomanPowerOfTen rpt = new RomanPowerOfTen(unit,romansList);
+            romanPowers.add(rpt);
+        }
 
-        } catch (IOException e) {
-            e.printStackTrace();
-            System.out.println("Error reading configuration file");
-            System.exit(1);
-        }
-        catch (ParseException e) {
-            e.printStackTrace();
-            System.out.println("Error parsing configuration file");
-            System.exit(2);
-        }
-        catch(Exception e){
-            e.printStackTrace();
-            System.out.println("Other exception");
-            System.exit(3);
-        }
     }
 
     /**

@@ -26,7 +26,7 @@ class RomanNumbersApplicationTests {
 	public void noParamRomanShouldReturnAnErrorMessage() throws Exception {
 		this.mockMvc.perform(get("/roman"))
 				.andDo(print()).andExpect(status().isOk())
-				.andExpect(jsonPath("$.error").value("Parameter decimal is missing or out of range, decimal must be in range 1 - 9999999999"));
+				.andExpect(jsonPath("$.error").value("Parameter decimal is missing or out of range, decimal must be in range 1 - 99999999999"));
 	}
 
 	@Test
@@ -52,14 +52,14 @@ class RomanNumbersApplicationTests {
 	public void pathRomanDecimal0ShouldReturnAnErrorMessage() throws Exception {
 		this.mockMvc.perform(get("/roman/0"))
 				.andDo(print()).andExpect(status().isOk())
-				.andExpect(jsonPath("$.error").value("Parameter decimal is missing or out of range, decimal must be in range 1 - 9999999999"));
+				.andExpect(jsonPath("$.error").value("Parameter decimal is missing or out of range, decimal must be in range 1 - 99999999999"));
 	}
 
 	@Test
 	public void pathRomanDecimalMAXLONGShouldReturnAnErrorMessage() throws Exception {
 		this.mockMvc.perform(get("/roman/"+ Long.MAX_VALUE))
 				.andDo(print()).andExpect(status().isOk())
-				.andExpect(jsonPath("$.error").value("Parameter decimal is missing or out of range, decimal must be in range 1 - 9999999999"));
+				.andExpect(jsonPath("$.error").value("Parameter decimal is missing or out of range, decimal must be in range 1 - 99999999999"));
 	}
 
 }

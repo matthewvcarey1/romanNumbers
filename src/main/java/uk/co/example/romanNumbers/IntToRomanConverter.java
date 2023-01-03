@@ -37,7 +37,7 @@ public class IntToRomanConverter {
      * @return always true
      * @throws Exception
      */
-    public synchronized static Boolean removeInstance() throws Exception{
+    protected synchronized static Boolean removeInstance() throws Exception{
         if (INSTANCE != null) {
             INSTANCE = null;
         }

@@ -40,4 +40,11 @@ class RomanNumbersApplicationTests2 {
                 .andExpect(jsonPath("$.error")
                         .value("java.io.FileNotFoundException: src/main/resources/static/romanNumbers.json (No such file or directory)"));
     }
+    @Test
+    public void getRomanLimits() throws Exception {
+        this.mockMvc.perform(get("/romanLimits/"))
+                .andDo(print()).andExpect(status().isOk())
+                .andExpect(jsonPath("$.error")
+                .value("src/main/resources/static/romanNumbers.json (No such file or directory)"));
+    }
 }

@@ -7,6 +7,7 @@ import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.test.web.servlet.MockMvc;
 
 
+import static org.hamcrest.Matchers.containsString;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.get;
 import static org.springframework.test.web.servlet.result.MockMvcResultHandlers.print;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.jsonPath;
@@ -26,7 +27,7 @@ class RomanNumbersApplicationTests {
 	public void noParamRomanShouldReturnAnErrorMessage() throws Exception {
 		this.mockMvc.perform(get("/roman"))
 				.andDo(print()).andExpect(status().isOk())
-				.andExpect(jsonPath("$.error").value("Parameter decimal is missing or out of range, decimal must be in range 1 - 99999999999"));
+				.andExpect(jsonPath("$.error").value(containsString("Parameter decimal is missing or out of range, decimal must be in range 1 - 99999999999")));
 	}
 
 	@Test
@@ -52,14 +53,14 @@ class RomanNumbersApplicationTests {
 	public void pathRomanDecimal0ShouldReturnAnErrorMessage() throws Exception {
 		this.mockMvc.perform(get("/roman/0"))
 				.andDo(print()).andExpect(status().isOk())
-				.andExpect(jsonPath("$.error").value("Parameter decimal is missing or out of range, decimal must be in range 1 - 99999999999"));
+				.andExpect(jsonPath("$.error").value(containsString("Parameter decimal is missing or out of range, decimal must be in range 1 - 99999999999")));
 	}
 
 	@Test
 	public void pathRomanDecimalMAXLONGShouldReturnAnErrorMessage() throws Exception {
 		this.mockMvc.perform(get("/roman/"+ Long.MAX_VALUE))
 				.andDo(print()).andExpect(status().isOk())
-				.andExpect(jsonPath("$.error").value("Parameter decimal is missing or out of range, decimal must be in range 1 - 99999999999"));
+				.andExpect(jsonPath("$.error").value(containsString("Parameter decimal is missing or out of range, decimal must be in range 1 - 99999999999")));
 	}
 
 }

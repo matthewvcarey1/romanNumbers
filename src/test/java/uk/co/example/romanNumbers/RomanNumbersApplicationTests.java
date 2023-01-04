@@ -2,6 +2,7 @@ package uk.co.example.romanNumbers;
 
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.boot.test.autoconfigure.web.servlet.AutoConfigureMockMvc;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.test.web.servlet.MockMvc;
@@ -62,7 +63,23 @@ class RomanNumbersApplicationTests {
 				.andDo(print()).andExpect(status().isOk())
 				.andExpect(jsonPath("$.error").value(containsString("Parameter decimal is missing or out of range, decimal must be in range 1 - 99999999999")));
 	}
+	@Value("${romanNumbersFile}")
+	String romanNumbersFilename;
 
+	@Value("${romanNumbersPath}")
+	String romanNumbersPath;
+	@Test
+	public void getRomanLimits() throws Exception {
+		String romanNumbersParameter = romanNumbersPath+romanNumbersFilename;
+		IntToRomanConverter testConvertor = IntToRomanConverter.getInstance(romanNumbersParameter);
+		long upperLimit = testConvertor.getTopLimit() -1 ;
+		this.mockMvc.perform(get("/romanLimits/"))
+				.andDo(print()).andExpect(status().isOk())
+				.andExpect(jsonPath("$.lowerLimit").value(1L))
+				.andExpect(jsonPath("$.upperLimit").value(upperLimit));
+	}
 }
+
+
 
 

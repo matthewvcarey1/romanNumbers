@@ -52,4 +52,16 @@ public class RomanController {
             return new RomanResult(e.toString(),"");
         }
     }
+    @GetMapping("/romanLimits/")
+    public RomanLimits romanLimits(){
+        try{
+            String romanNumbersParameter = romanNumbersPath+romanNumbersFilename;
+            IntToRomanConverter converter = IntToRomanConverter.getInstance(romanNumbersParameter);
+            final long upperLimit = converter.getTopLimit() -1;
+            final long lowerLimit = 1L;
+            return new RomanLimits(lowerLimit,upperLimit,"");
+        }catch (Exception e){
+            return new RomanLimits(1,1, e.getMessage());
+        }
+    }
 }

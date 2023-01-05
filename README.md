@@ -4,7 +4,7 @@ In this implementation algorithm uses a json config file
 
 There seem to be several ways of implementing large roman numbers and config files gives us the possibility of switching between them.
 
-I have opted for the using the vinculum to represent value 1000 times its original. So X (10) with one vinculum is X̅ (10,000).
+I have opted for the using the vinculum to represent a value 1000 times its original. So X (10) with one vinculum is X̅ (10,000).
 Unfortunately the triple vinculum display for numbers like 9,900,000,000 is less than impressive unless you make the displayed terminal font large.
 
 I suggest a font like Consolas that has the suitable unicode glyphs.

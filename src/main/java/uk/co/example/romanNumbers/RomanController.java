@@ -1,17 +1,13 @@
 package uk.co.example.romanNumbers;
-
 import org.springframework.beans.factory.annotation.Value;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.RequestParam;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 
-import java.util.Stack;
-
+@CrossOrigin(maxAge = 3600)
 @RestController
 public class RomanController {
     private final String ERROR_MESSAGE = "Parameter decimal is missing or out of range, decimal must be in range 1 - ";
     private final String PARSE_ERROR_MESSAGE = "Parameter decimal could not be parsed as an Integer";
+
 
 
     @Value("${romanNumbersFile}")
@@ -19,8 +15,10 @@ public class RomanController {
 
     @Value("${romanNumbersPath}")
     String romanNumbersPath;
+    @CrossOrigin("http://localhost")
     @GetMapping("/roman")
     public RomanResult romanParam(@RequestParam(value = "decimal", defaultValue = "0") String decimal) {
+
         try {
             String romanNumbersParameter = romanNumbersPath+romanNumbersFilename;
             IntToRomanConverter converter = IntToRomanConverter.getInstance(romanNumbersParameter);
@@ -37,6 +35,7 @@ public class RomanController {
             return new RomanResult(e.toString(),"");
         }
     }
+    @CrossOrigin("http://localhost")
     @GetMapping("/roman/{value}")
     public RomanResult romanPath(@PathVariable Long value) {
         try {
@@ -52,6 +51,7 @@ public class RomanController {
             return new RomanResult(e.toString(),"");
         }
     }
+    @CrossOrigin("http://localhost")
     @GetMapping("/romanLimits/")
     public RomanLimits romanLimits(){
         try{

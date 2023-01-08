@@ -31,14 +31,15 @@ There is one call to get the lower and upper limits on what can be converted.
 ```
   /romanLimits/
 ```
-Which returns this structure, the upperLimit will change
+Which returns this structure, the upperLimit could change
 ```json
 {
   "lowerLimit": 1,
-  "upperLimit": 99999999999,
+  "upperLimit": 999999999999999,
   "error": ""
 }
 ```
+At present the limitation is the number of overhead bars that we can represent in unicode. At present in my terminal more than 4 are ignored.
 
 ### Usual Gradle instructions
 To build and test

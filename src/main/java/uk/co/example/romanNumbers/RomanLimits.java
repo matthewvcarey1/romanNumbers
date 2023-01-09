@@ -1,20 +1,20 @@
 package uk.co.example.romanNumbers;
 
 public class RomanLimits {
-    private final long lowerLimit;
-    private final long upperLimit;
+    private final String lowerLimit;
+    private final String upperLimit;
 
     private final String error;
     public RomanLimits(long lower, long upper, String error){
-        lowerLimit = lower;
-        upperLimit = upper;
+        lowerLimit = Long.valueOf(lower).toString();
+        upperLimit = Long.valueOf(upper).toString();
         this.error = error;
     }
 
-    public long getUpperLimit(){
+    public String getUpperLimit(){
         return upperLimit;
     }
-    public long getLowerLimit(){
+    public String getLowerLimit(){
         return lowerLimit;
     }
     public String getError(){

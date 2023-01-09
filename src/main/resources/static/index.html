@@ -13,7 +13,7 @@
 
 
 <form name="form"">
-    <label for="numberInput" id="inputLabel">Enter a positive integer:</label>
+    <label for="numberInput" id="inputLabel">Enter a positive integer, with no commas:</label>
     <input type="text" name="Number" id="numberInput" />
     <input type="submit" />
   </form>
@@ -33,7 +33,7 @@
     .then((contents) => {
       let upper = contents.upperLimit;
       let lower = contents.lowerLimit;
-      inputLabel.innerHTML = `Enter a positive integer, between ${lower} and ${upper}:`;
+      inputLabel.innerHTML = `Enter a positive integer, with no commas, between ${lower} and ${upper}:`;
     })
     .catch(function(error) {
       console.log(error);

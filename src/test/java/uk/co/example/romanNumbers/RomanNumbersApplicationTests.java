@@ -75,8 +75,8 @@ class RomanNumbersApplicationTests {
 		long upperLimit = testConvertor.getTopLimit() -1 ;
 		this.mockMvc.perform(get("/romanLimits/"))
 				.andDo(print()).andExpect(status().isOk())
-				.andExpect(jsonPath("$.lowerLimit").value(1L))
-				.andExpect(jsonPath("$.upperLimit").value(upperLimit));
+				.andExpect(jsonPath("$.lowerLimit").value("1"))
+				.andExpect(jsonPath("$.upperLimit").value(Long.valueOf(upperLimit).toString()));
 	}
 }
 

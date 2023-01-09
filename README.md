@@ -34,11 +34,12 @@ There is one call to get the lower and upper limits on what can be converted.
 Which returns this structure, the upperLimit could change
 ```json
 {
-  "lowerLimit": 1,
-  "upperLimit": 999999999999999,
+  "lowerLimit": "1",
+  "upperLimit": "999999999999999",
   "error": ""
 }
 ```
+It returns strings due the limitation of javascript in a possible web client not being able to represent the value.
 At present the limitation is the number of overhead bars that we can represent in unicode. At present in my terminal more than 4 are ignored.
 
 ### Usual Gradle instructions

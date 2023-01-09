@@ -1,6 +1,7 @@
 package uk.co.example.romanNumbers;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.web.bind.annotation.*;
+import org.springframework.web.servlet.ModelAndView;
 
 @CrossOrigin(maxAge = 3600)
 @RestController
@@ -63,5 +64,13 @@ public class RomanController {
         }catch (Exception e){
             return new RomanLimits(1,1, e.getMessage());
         }
+    }
+
+    @RequestMapping("/")
+    public ModelAndView home()
+    {
+        ModelAndView modelAndView = new ModelAndView();
+        modelAndView.setViewName("index");
+        return modelAndView;
     }
 }

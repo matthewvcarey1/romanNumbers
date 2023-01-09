@@ -53,6 +53,8 @@ To start the service on http://localhost:8080/roman/1
 ./gradlew bootRun
 ```
 
+Once it is running with bootRun you can view static page http://localhost:8080 to query the service from a web page.
+
 ### Analysis
 
 Have a bash at overloading it.

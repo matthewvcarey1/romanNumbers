@@ -1,0 +1,58 @@
+<!DOCTYPE html>
+<html>
+<body>
+<style>
+  .mono {
+  font-family: monospace, monospace;
+  }
+  .red {
+    color:red;
+  }
+</style>
+<h1>Roman Number</h1>
+
+
+<form name="form"">
+    <label for="username">Enter a positive integer:</label> 
+    <input type="text" name="Number" id="numberInput" />
+    <input type="submit" />
+  </form>
+<p>
+<div id="romanValue" class="mono"></div>
+<div id="errorValue" class="red"></div>
+</p>
+  
+<script>
+    document.querySelector('form').addEventListener('submit', (e) => {
+       e.preventDefault();  
+       const data = Object.fromEntries(new FormData(e.target).entries());
+       console.log(data);
+       setPage(data);
+       return false;
+    });
+
+function setPage(val){
+  const valueDiv = document.getElementById('romanValue');
+  const errorDiv = document.getElementById('errorValue');
+  const baseUrl = 'http://localhost:8080/roman/';
+
+  let url = baseUrl+val.Number;
+  
+  fetch(url)
+    .then((response) => {
+      return response.json();
+    })
+    .then((contents) => {
+      let number = contents.value;
+      let errorVal = contents.error;  
+      valueDiv.innerHTML = `${number}`;
+      errorDiv.innerHTML = `${errorVal}`;
+    })
+    .catch(function(error) {
+      console.log(error);
+    });
+  }
+    
+</script>
+</body>
+</html>

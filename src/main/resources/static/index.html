@@ -24,8 +24,9 @@
 <p>In this implementation we are using the vinculum (horizontal overhead bar) to represent a value times 1000. So 10 is X and 10,000 is X̅.</p>
 <script>
     onpageshow = (event) => {
+        let thisUrl = new URL(window.location.href);
         const inputLabel = document.getElementById('inputLabel');
-        const url = 'http://localhost:8080/romanLimits/';
+        const url = `http://${thisUrl.host}/romanLimits/`;
         fetch(url)
     .then((response) => {
       return response.json();
@@ -51,7 +52,8 @@
 function setPage(val){
   const valueDiv = document.getElementById('romanValue');
   const errorDiv = document.getElementById('errorValue');
-  const baseUrl = 'http://localhost:8080/roman/';
+  let thisUrl = new URL(window.location.href);
+  const baseUrl = `http://${thisUrl.host}/roman/`;
 
   let url = baseUrl+val.Number;
   

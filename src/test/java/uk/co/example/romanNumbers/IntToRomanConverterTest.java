@@ -76,8 +76,8 @@ class IntToRomanConverterTest {
         try{
             IntToRomanConverter testConvertor = IntToRomanConverter.getInstance(romanNumbersParameter);
             Long limit = testConvertor.getTopLimit();
-            String result = testConvertor.convert(limit-1);
-            assertThat(result, containsString("CMXCIX"));
+            String result = testConvertor.convert(limit);
+            assertThat(result, containsString("CCCVII") );
         } catch (Exception e){
             fail("Should not caused exception");
         }
@@ -88,7 +88,7 @@ class IntToRomanConverterTest {
         try{
             IntToRomanConverter testConvertor = IntToRomanConverter.getInstance(romanNumbersParameter);
             Long limit = testConvertor.getTopLimit();
-            String result = testConvertor.convert(limit);
+            String result = testConvertor.convert(limit + 1);
             assertEquals("",result);
         } catch (Exception e){
             fail("Should not caused exception");

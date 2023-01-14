@@ -3,7 +3,7 @@
 <body>
 <style>
   .mono {
-  font-family: monospace, monospace;
+  font-family: Consolas, "Courier New", monospace, monospace;
   }
   .red {
     color:red;
@@ -21,7 +21,7 @@
 <div id="romanValue" class="mono"></div>
 <div id="errorValue" class="red"></div>
 </p>
-<p>In this implementation we are using the vinculum (horizontal overhead bar) to represent a value times 1000. So 10 is X and 10,000 is X̅.</p>
+<p>In this implementation we are using the vinculum (horizontal overhead bar) to represent a value times 1000. So 10 is <span class="mono">X</span>, 10,000 is <span class="mono">X̅</span> and 10,000,000 is <span class="mono">X̿</span>.</p>
 <script>
     onpageshow = (event) => {
         let thisUrl = new URL(window.location.href);

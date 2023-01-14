@@ -18,6 +18,7 @@ public class IntToRomanConverter {
     private ArrayList<RomanPowerOfTen> romanPowers;
     private long limit;
 
+
     /**
      * Returns the instance of IntToRomanConverter
      * Making this class follow the singleton pattern.
@@ -45,6 +46,8 @@ public class IntToRomanConverter {
     }
     private static IntToRomanConverter INSTANCE;
 
+    private final int MAX_POSSIBLE_START_INDEX=(int)Math.log10(Long.MAX_VALUE);
+    private final long MAX_UNIT = (long) Math.pow(this.BASE,(long) Math.log10(Long.MAX_VALUE));
     private IntToRomanConverter(String configFilePath) throws Exception{
         romanPowers = new ArrayList<>();
         // Read definitions of Roman 'digit character strings' from a json configuration file
@@ -58,7 +61,12 @@ public class IntToRomanConverter {
             JSONObject romanObject = (JSONObject)ob;
             final long unit = (Long) romanObject.get("unit");
             if(!romanNumbersIterator.hasNext()) {
-                this.limit = unit * BASE;
+                if (unit < this.MAX_UNIT) {
+                    this.limit = (unit * BASE) - 1;
+                }
+                else{
+                    this.limit = Long.MAX_VALUE;
+                }
             }
             JSONArray romans = (JSONArray) romanObject.get("romans");
             ArrayList<String> romansList = new ArrayList<>();
@@ -72,21 +80,33 @@ public class IntToRomanConverter {
 
     }
 
+    private long getRemainder(long unit, long decimal){
+        if(unit < this.MAX_UNIT){
+            final long previousUnit = unit * BASE;
+            return  decimal % previousUnit;
+        }
+        return decimal;
+    }
+
     /**
      * Convert actually return a string representing the long parameter as a roman number
      * @param decimal a long integer more than zero and less a limit defined by the configuration files.
      * @return The string representing the value in Roman characters.
      */
     public String convert(long decimal){
+        if(decimal < 1){
+            return "";
+        }
         // I should really check if Math.log!0() is actually quicker than the n empty iterations above the result it avoids
-        final int startIndex = (int) Math.log10(decimal);
+        final int log10Decimal = (int) Math.log10(decimal);
+        final int startIndex = log10Decimal < MAX_POSSIBLE_START_INDEX? log10Decimal: MAX_POSSIBLE_START_INDEX;
         StringBuilder result = new StringBuilder();
         ListIterator<RomanPowerOfTen> iterator = romanPowers.listIterator(startIndex < romanPowers.size()? startIndex+1 : romanPowers.size());
         while(iterator.hasPrevious()){
             RomanPowerOfTen rpt = iterator.previous();
             final long unit = rpt.getUnit();
-            final long previousUnit = unit * BASE;
-            final long remainder = decimal % previousUnit;
+            final long remainder = getRemainder(unit, decimal);
+            //final long remainder = log10Decimal<MAX_POSSIBLE_START_INDEX?decimal % previousUnit:decimal;
             // Avoid empty iterations below the result
             if (remainder == 0L) break;
             // indexOfString: always a value in the range 0-9
@@ -111,7 +131,7 @@ public class IntToRomanConverter {
      */
     public boolean validate(long decimal){
         final long limit = getTopLimit();
-        if(decimal <= 0 || decimal >= limit){
+        if(decimal <= 0 || decimal > limit){
             return false;
         }
         return true;

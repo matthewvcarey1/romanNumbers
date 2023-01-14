@@ -7,7 +7,7 @@ import org.springframework.web.servlet.ModelAndView;
 @RestController
 public class RomanController {
     private final String ERROR_MESSAGE = "Parameter decimal is missing or out of range, decimal must be in range 1 - ";
-    private final String PARSE_ERROR_MESSAGE = "Parameter decimal could not be parsed as an Integer";
+    private final String PARSE_ERROR_MESSAGE = "Parameter decimal could not be parsed as a Long Integer";
 
 
 
@@ -19,7 +19,6 @@ public class RomanController {
     @CrossOrigin("http://localhost")
     @GetMapping("/roman")
     public RomanResult romanParam(@RequestParam(value = "decimal", defaultValue = "0") String decimal) {
-
         try {
             String romanNumbersParameter = romanNumbersPath+romanNumbersFilename;
             IntToRomanConverter converter = IntToRomanConverter.getInstance(romanNumbersParameter);
@@ -37,9 +36,11 @@ public class RomanController {
         }
     }
     @CrossOrigin("http://localhost")
-    @GetMapping("/roman/{value}")
-    public RomanResult romanPath(@PathVariable Long value) {
+    @GetMapping("/roman/{valueString}")
+    public RomanResult romanPath(@PathVariable String valueString) {
+        System.out.println(valueString);
         try {
+            long value=Long.parseLong(valueString);
             String romanNumbersParameter = romanNumbersPath+romanNumbersFilename;
             IntToRomanConverter converter = IntToRomanConverter.getInstance(romanNumbersParameter);
             final long limit = converter.getTopLimit();
@@ -48,6 +49,8 @@ public class RomanController {
             } else {
                 return new RomanResult(ERROR_MESSAGE + (limit - 1), "");
             }
+        } catch (NumberFormatException e){
+            return new RomanResult(PARSE_ERROR_MESSAGE , "");
         } catch (Exception e){
             return new RomanResult(e.toString(),"");
         }
@@ -58,7 +61,7 @@ public class RomanController {
         try{
             String romanNumbersParameter = romanNumbersPath+romanNumbersFilename;
             IntToRomanConverter converter = IntToRomanConverter.getInstance(romanNumbersParameter);
-            final long upperLimit = converter.getTopLimit() -1;
+            final long upperLimit = converter.getTopLimit();
             final long lowerLimit = 1L;
             return new RomanLimits(lowerLimit,upperLimit,"");
         }catch (Exception e){

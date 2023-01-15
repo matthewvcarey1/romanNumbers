@@ -38,7 +38,6 @@ public class RomanController {
     @CrossOrigin("http://localhost")
     @GetMapping("/roman/{valueString}")
     public RomanResult romanPath(@PathVariable String valueString) {
-        System.out.println(valueString);
         try {
             long value=Long.parseLong(valueString);
             String romanNumbersParameter = romanNumbersPath+romanNumbersFilename;

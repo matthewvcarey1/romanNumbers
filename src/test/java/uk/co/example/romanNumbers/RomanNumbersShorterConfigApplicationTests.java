@@ -16,7 +16,7 @@ import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.
 
 @SpringBootTest(properties = { "romanNumbersPath=src/test/resources/definitions/" })
 @AutoConfigureMockMvc
-class RomanNumbersApplicationTests3 {
+class RomanNumbersShorterConfigApplicationTests {
     @Autowired
     private MockMvc mockMvc;
     @BeforeEach
@@ -27,6 +27,7 @@ class RomanNumbersApplicationTests3 {
             e.printStackTrace();
         }
     }
+
 
     @Value("${romanNumbersFile}")
     String romanNumbersFilename;

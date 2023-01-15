@@ -14,7 +14,7 @@ import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.
 
 @SpringBootTest(properties = { "romanNumbersPath=src/main/resources/static/" })
 @AutoConfigureMockMvc
-class RomanNumbersApplicationTests2 {
+class RomanNumbersMissingConfigApplicationTests {
     @Autowired
     private MockMvc mockMvc;
     @BeforeEach
@@ -25,6 +25,7 @@ class RomanNumbersApplicationTests2 {
             e.printStackTrace();
         }
     }
+
     @Test
     public void noConfigNoParamRomanShouldReturnAnErrorMessage() throws Exception {
         this.mockMvc.perform(get("/roman"))

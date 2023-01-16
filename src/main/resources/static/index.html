@@ -23,7 +23,7 @@
   </form>
 <p>
     <div id="errorValue" class="red"></div>
-    <table id="resultsTable">
+    <table hidden id="resultsTable">
     <tr></tr><th>Decimal</th><th>Roman</th></tr>
     </table>
 
@@ -74,6 +74,7 @@ function setPage(val){
       let errorVal = contents.error;
       let source = contents.source;
       if(number.length > 0){
+            resultsTable.hidden=false;
             const newRow = tbodyRef.insertRow(2)
             newRow.innerHTML=`<td>${source}</td><td>${number}</td>`;
       }

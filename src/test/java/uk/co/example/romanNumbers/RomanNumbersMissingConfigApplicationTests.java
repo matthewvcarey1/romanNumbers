@@ -31,7 +31,8 @@ class RomanNumbersMissingConfigApplicationTests {
         this.mockMvc.perform(get("/roman"))
                 .andDo(print()).andExpect(status().isOk())
                 .andExpect(jsonPath("$.error")
-                        .value("java.io.FileNotFoundException: src/main/resources/static/romanNumbers.json (No such file or directory)"));
+                        .value("java.io.FileNotFoundException: src/main/resources/static/romanNumbers.json (No such file or directory)"))
+                .andExpect(jsonPath("$.source").value(""));
     }
 
     @Test
@@ -39,7 +40,8 @@ class RomanNumbersMissingConfigApplicationTests {
         this.mockMvc.perform(get("/roman/1"))
                 .andDo(print()).andExpect(status().isOk())
                 .andExpect(jsonPath("$.error")
-                        .value("java.io.FileNotFoundException: src/main/resources/static/romanNumbers.json (No such file or directory)"));
+                        .value("java.io.FileNotFoundException: src/main/resources/static/romanNumbers.json (No such file or directory)"))
+                .andExpect(jsonPath("$.source").value(""));
     }
     @Test
     public void getRomanLimits() throws Exception {

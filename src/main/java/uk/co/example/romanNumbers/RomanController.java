@@ -6,8 +6,8 @@ import org.springframework.web.servlet.ModelAndView;
 @CrossOrigin(maxAge = 3600)
 @RestController
 public class RomanController {
-    private final String ERROR_MESSAGE = "Parameter decimal is missing or out of range, decimal must be in range 1 - ";
-    private final String PARSE_ERROR_MESSAGE = "Parameter decimal could not be parsed as a Long Integer";
+    private final String ERROR_MESSAGE = "The input value is missing or out of range, decimal must be in range 1 - ";
+    private final String PARSE_ERROR_MESSAGE = "The input value could not be parsed as a Long Integer";
 
 
 
@@ -25,14 +25,14 @@ public class RomanController {
             final long limit = converter.getTopLimit();
             final long value = Long.parseLong(decimal);
             if(converter.validate(value)){
-                return new RomanResult("", converter.convert(value));
+                return new RomanResult("", converter.convert(value), decimal);
             } else {
-                return new RomanResult(ERROR_MESSAGE + (limit-1),"");
+                return new RomanResult(ERROR_MESSAGE + (limit-1),"", "");
             }
         } catch (NumberFormatException e){
-            return new RomanResult(PARSE_ERROR_MESSAGE , "");
+            return new RomanResult(PARSE_ERROR_MESSAGE , "", "");
         }  catch (Exception e) {
-            return new RomanResult(e.toString(),"");
+            return new RomanResult(e.toString(),"", "");
         }
     }
     @CrossOrigin("http://localhost")
@@ -44,14 +44,14 @@ public class RomanController {
             IntToRomanConverter converter = IntToRomanConverter.getInstance(romanNumbersParameter);
             final long limit = converter.getTopLimit();
             if (converter.validate(value)) {
-                return new RomanResult("", converter.convert(value));
+                return new RomanResult("", converter.convert(value), valueString);
             } else {
-                return new RomanResult(ERROR_MESSAGE + (limit - 1), "");
+                return new RomanResult(ERROR_MESSAGE + (limit - 1), "", "");
             }
         } catch (NumberFormatException e){
-            return new RomanResult(PARSE_ERROR_MESSAGE , "");
+            return new RomanResult(PARSE_ERROR_MESSAGE , "", "");
         } catch (Exception e){
-            return new RomanResult(e.toString(),"");
+            return new RomanResult(e.toString(),"", "");
         }
     }
     @CrossOrigin("http://localhost")

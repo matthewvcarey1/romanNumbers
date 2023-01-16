@@ -27,47 +27,52 @@ class RomanNumbersApplicationTests {
 	public void noParamRomanShouldReturnAnErrorMessage() throws Exception {
 		this.mockMvc.perform(get("/roman"))
 				.andDo(print()).andExpect(status().isOk())
-				.andExpect(jsonPath("$.error").value(containsString("Parameter decimal is missing or out of range, decimal must be in range 1 - 9")));
+				.andExpect(jsonPath("$.error").value(containsString("The input value is missing or out of range, decimal must be in range 1 - 9")));
 	}
 
 	@Test
 	public void nonNumericParamRomanShouldReturnAnErrorMessage() throws Exception {
 		this.mockMvc.perform(get("/roman").param("decimal", "blob")).andDo(print()).andExpect(status().isOk())
-				.andExpect(jsonPath("$.error").value("Parameter decimal could not be parsed as a Long Integer"));
+				.andExpect(jsonPath("$.error").value("The input value could not be parsed as a Long Integer"));
 	}
 	@Test
 	public void paramDecimal1999ShouldReturnRomanValue() throws Exception {
 		this.mockMvc.perform(get("/roman").param("decimal", "1999"))
 				.andDo(print()).andExpect(status().isOk())
-				.andExpect(jsonPath("$.value").value("MCMXCIX"));
+				.andExpect(jsonPath("$.value").value("MCMXCIX"))
+				.andExpect(jsonPath("$.source").value("1999"));
 	}
 
 	@Test
 	public void pathDecimal1999ShouldReturnRomanValue() throws Exception {
 		this.mockMvc.perform(get("/roman/1999"))
 				.andDo(print()).andExpect(status().isOk())
-				.andExpect(jsonPath("$.value").value("MCMXCIX"));
+				.andExpect(jsonPath("$.value").value("MCMXCIX"))
+				.andExpect(jsonPath("$.source").value("1999"));;
 	}
 
 	@Test
 	public void pathRomanDecimal0ShouldReturnAnErrorMessage() throws Exception {
 		this.mockMvc.perform(get("/roman/0"))
 				.andDo(print()).andExpect(status().isOk())
-				.andExpect(jsonPath("$.error").value(containsString("Parameter decimal is missing or out of range, decimal must be in range 1 - 9")));
+				.andExpect(jsonPath("$.error").value(containsString("The input value is missing or out of range, decimal must be in range 1 - 9")))
+				.andExpect(jsonPath("$.source").value(""));;
 	}
 
 	@Test
 	public void pathRomanDecimalMAXLONGShouldReturnAValue() throws Exception {
 		this.mockMvc.perform(get("/roman/"+ Long.MAX_VALUE))
 				.andDo(print()).andExpect(status().isOk())
-				.andExpect(jsonPath("$.value").value(containsString("I̿̿̿X̿̿̿C̿̿̅C̿̿̅X̿̿̅X̿̿̅M̿̿M̿̿M̿̿C̿̿C̿̿C̿̿L̿̿X̿̿X̿̿M̿̅M̿̅X̿̅X̿̅X̿̅V̿̅I̿̅D̿C̿C̿C̿L̿I̿V̿D̅C̅C̅L̅X̅X̅V̅DCCCVII")));
+				.andExpect(jsonPath("$.value").value(containsString("I̿̿̿X̿̿̿C̿̿̅C̿̿̅X̿̿̅X̿̿̅M̿̿M̿̿M̿̿C̿̿C̿̿C̿̿L̿̿X̿̿X̿̿M̿̅M̿̅X̿̅X̿̅X̿̅V̿̅I̿̅D̿C̿C̿C̿L̿I̿V̿D̅C̅C̅L̅X̅X̅V̅DCCCVII")))
+				.andExpect(jsonPath("$.source").value(""+ Long.MAX_VALUE));
 	}
 
 	@Test
 	public void pathRomanDecimalMAXLONGPlus1ShouldReturnAnError() throws Exception {
 		this.mockMvc.perform(get("/roman/9223372036854775808"))
 				.andDo(print()).andExpect(status().isOk())
-				.andExpect(jsonPath("$.error").value(containsString("Parameter decimal could not be parsed as a Long Integer")));
+				.andExpect(jsonPath("$.error").value(containsString("The input value could not be parsed as a Long Integer")))
+				.andExpect(jsonPath("$.source").value(""));
 	}
 
 	@Value("${romanNumbersFile}")

@@ -2,11 +2,15 @@
 <html>
 <body>
 <style>
+  td {
+  font-family: Consolas, "Courier New", monospace, monospace;
+  }
   .mono {
   font-family: Consolas, "Courier New", monospace, monospace;
   }
   .red {
-    color:red;
+    background-color:red;
+    color:white;
   }
 </style>
 <h1>Roman Number</h1>
@@ -14,12 +18,15 @@
 
 <form name="form"">
     <label for="numberInput" id="inputLabel">Enter a positive integer, with no commas:</label>
-    <input type="text" name="Number" id="numberInput" />
+    <input type="text" name="Number" id="numberInput" minlength="1" maxlength="20"/>
     <input type="submit" />
   </form>
 <p>
-<div id="romanValue" class="mono"></div>
-<div id="errorValue" class="red"></div>
+    <div id="errorValue" class="red"></div>
+    <table id="resultsTable">
+    <tr></tr><th>Decimal</th><th>Roman</th></tr>
+    </table>
+
 </p>
 <p>In this implementation we are using the vinculum (horizontal overhead bar) to represent a value times 1000. So 10 is <span class="mono">X</span>, 10,000 is <span class="mono">X̅</span> and 10,000,000 is <span class="mono">X̿</span>.</p>
 <script>
@@ -50,7 +57,8 @@
     });
 
 function setPage(val){
-  const valueDiv = document.getElementById('romanValue');
+  const resultsTable = document.getElementById('resultsTable');
+  const  tbodyRef= resultsTable.getElementsByTagName('tbody')[0];
   const errorDiv = document.getElementById('errorValue');
   let thisUrl = new URL(window.location.href);
   const baseUrl = `http://${thisUrl.host}/roman/`;
@@ -63,8 +71,12 @@ function setPage(val){
     })
     .then((contents) => {
       let number = contents.value;
-      let errorVal = contents.error;  
-      valueDiv.innerHTML = `${number}`;
+      let errorVal = contents.error;
+      let source = contents.source;
+      if(number.length > 0){
+            const newRow = tbodyRef.insertRow(2)
+            newRow.innerHTML=`<td>${source}</td><td>${number}</td>`;
+      }
       errorDiv.innerHTML = `${errorVal}`;
     })
     .catch(function(error) {

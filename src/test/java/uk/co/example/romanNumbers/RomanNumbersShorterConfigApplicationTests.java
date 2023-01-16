@@ -41,7 +41,8 @@ class RomanNumbersShorterConfigApplicationTests {
         IntToRomanConverter testConvertor = IntToRomanConverter.getInstance(romanNumbersParameter);
         this.mockMvc.perform(get("/roman").param("decimal", "1999"))
                 .andDo(print()).andExpect(status().isOk())
-                .andExpect(jsonPath("$.value").value("MCMXCIX"));
+                .andExpect(jsonPath("$.value").value("MCMXCIX"))
+                .andExpect(jsonPath("$.source").value("1999"));
     }
 
     @Test
@@ -51,7 +52,8 @@ class RomanNumbersShorterConfigApplicationTests {
         long upperLimit = testConvertor.getTopLimit();
         this.mockMvc.perform(get("/roman/"+ upperLimit))
                 .andDo(print()).andExpect(status().isOk())
-                .andExpect(jsonPath("$.value").value(containsString("X̿̿̅C̿̿̅I̿̿̅X̿̿̅C̿̿M̿̿X̿̿C̿̿I̿̿X̿̿C̿̅M̿̅X̿̅C̿̅I̿̅X̿̅C̿M̿X̿C̿I̿X̿C̅M̅X̅C̅I̅X̅CMXCIX")));
+                .andExpect(jsonPath("$.value").value(containsString("X̿̿̅C̿̿̅I̿̿̅X̿̿̅C̿̿M̿̿X̿̿C̿̿I̿̿X̿̿C̿̅M̿̅X̿̅C̿̅I̿̅X̿̅C̿M̿X̿C̿I̿X̿C̅M̅X̅C̅I̅X̅CMXCIX")))
+                .andExpect(jsonPath("$.source").value(""+upperLimit));
     }
 
     @Test
@@ -61,7 +63,8 @@ class RomanNumbersShorterConfigApplicationTests {
         long upperLimitPlus1 = testConvertor.getTopLimit()+1;
         this.mockMvc.perform(get("/roman/"+upperLimitPlus1))
                 .andDo(print()).andExpect(status().isOk())
-                .andExpect(jsonPath("$.error").value(containsString("Parameter decimal is missing or out of range, decimal must be in range 1 - 9")));
+                .andExpect(jsonPath("$.error").value(containsString("The input value is missing or out of range, decimal must be in range 1 - 9")))
+                .andExpect(jsonPath("$.source").value(""));
     }
     @Test
     public void getRomanLimits() throws Exception {

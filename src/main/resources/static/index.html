@@ -2,6 +2,11 @@
 <html>
 <body>
 <style>
+ body {
+    background-image: url('Column_of_Marcus_Aurelius_-_detail3.jpg');
+    background-size: cover;
+    background-repeat: no-repeat;
+  }
   td {
   font-family: Consolas, "Courier New", monospace, monospace;
   }
@@ -12,23 +17,31 @@
     background-color:red;
     color:white;
   }
+.center {
+  text-align: center;
+}
+.centerObj {
+  margin-left: auto;
+  margin-right: auto;
+}
+
 </style>
-<h1>Roman Number</h1>
+<h1 class="center" >Roman Number</h1>
 
 
-<form name="form"">
-    <label for="numberInput" id="inputLabel">Enter a positive integer, with no commas:</label>
+<form name="form" class="center">
+    <label name="numberInput" id="inputLabel">Enter a positive integer, with no commas:</label>
     <input type="text" name="Number" id="numberInput" minlength="1" maxlength="20"/>
     <input type="submit" />
   </form>
-<p>
+<p class="center">
     <div id="errorValue" class="red"></div>
-    <table hidden id="resultsTable">
+    <table hidden id="resultsTable" class="centerObj">
     <tr></tr><th>Decimal</th><th>Roman</th></tr>
     </table>
 
 </p>
-<p>In this implementation we are using the vinculum (horizontal overhead bar) to represent a value times 1000. So 10 is <span class="mono">X</span>, 10,000 is <span class="mono">X̅</span> and 10,000,000 is <span class="mono">X̿</span>.</p>
+<p  class="center">In this implementation we are using the vinculum (horizontal overhead bar) to represent a value times 1000. So 10 is <span class="mono">X</span>, 10,000 is <span class="mono">X̅</span> and 10,000,000 is <span class="mono">X̿</span>.</p>
 <script>
     onpageshow = (event) => {
         let thisUrl = new URL(window.location.href);

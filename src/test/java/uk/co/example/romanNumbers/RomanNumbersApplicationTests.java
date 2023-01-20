@@ -44,8 +44,24 @@ class RomanNumbersApplicationTests {
 	}
 
 	@Test
+	public void paramDecimal01999ShouldReturnRomanValue() throws Exception {
+		this.mockMvc.perform(get("/roman").param("decimal", "01999"))
+				.andDo(print()).andExpect(status().isOk())
+				.andExpect(jsonPath("$.value").value("MCMXCIX"))
+				.andExpect(jsonPath("$.source").value("1999"));
+	}
+
+	@Test
 	public void pathDecimal1999ShouldReturnRomanValue() throws Exception {
 		this.mockMvc.perform(get("/roman/1999"))
+				.andDo(print()).andExpect(status().isOk())
+				.andExpect(jsonPath("$.value").value("MCMXCIX"))
+				.andExpect(jsonPath("$.source").value("1999"));;
+	}
+
+	@Test
+	public void pathDecimal01999ShouldReturnRomanValue() throws Exception {
+		this.mockMvc.perform(get("/roman/01999"))
 				.andDo(print()).andExpect(status().isOk())
 				.andExpect(jsonPath("$.value").value("MCMXCIX"))
 				.andExpect(jsonPath("$.source").value("1999"));;

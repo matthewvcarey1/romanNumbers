@@ -25,7 +25,8 @@ public class RomanController {
             final long limit = converter.getTopLimit();
             final long value = Long.parseLong(decimal);
             if(converter.validate(value)){
-                return new RomanResult("", converter.convert(value), decimal);
+                System.out.println(Long.toString(value));
+                return new RomanResult("", converter.convert(value), Long.toString(value));
             } else {
                 return new RomanResult(ERROR_MESSAGE + (limit-1),"", "");
             }
@@ -44,7 +45,7 @@ public class RomanController {
             IntToRomanConverter converter = IntToRomanConverter.getInstance(romanNumbersParameter);
             final long limit = converter.getTopLimit();
             if (converter.validate(value)) {
-                return new RomanResult("", converter.convert(value), valueString);
+                return new RomanResult("", converter.convert(value), Long.toString(value));
             } else {
                 return new RomanResult(ERROR_MESSAGE + (limit - 1), "", "");
             }
